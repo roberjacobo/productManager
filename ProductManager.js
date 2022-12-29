@@ -1,36 +1,41 @@
 const fs = require("fs");
 
 class ProductManager {
+  static idCounter = 0;
+
   constructor(path) {
     this.path = path;
-    this.id = 1;
     this.products = new Array();
   }
 
-  getProducts() {
+  getProducts(limit) {
     this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-    if (this.products.length === 0) {
+    if (!this.products.length) {
       console.log("Products list is empty");
     } else {
-      console.log(this.products);
+      console.log(this.products.slice(0, limit));
     }
   }
 
-  addProduct(title, description, price, thumbnail, code, stock) {
+  addProduct(product) {
     this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-    let found = this.products.find((product) => product.code === code);
+    let found = this.products.find((element) => element.code === product.code);
     if (found === undefined) {
-      this.products.push({
-        id: this.id,
-        title: title,
-        description: description,
-        price: price,
-        thumbnail: thumbnail,
-        code: code,
-        stock: stock,
-      });
-      this.id++;
+      if (!this.products.length) {
+        ProductManager.idCounter = 1;
+      } else {
+        ProductManager.idCounter =
+          this.products[this.products.length - 1].id + 1;
+      }
+
+      const newProduct = {
+        id: ProductManager.idCounter,
+        ...product,
+      };
+
+      this.products.push(newProduct);
       fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
+      console.log("Product created successfully!");
     } else {
       console.log("Product already exists");
     }
@@ -38,7 +43,7 @@ class ProductManager {
 
   getProductById(id) {
     this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-    let found = this.products.find((product) => product.id === id);
+    let found = this.products.find((element) => element.id === Number(id));
     if (found) {
       console.log(found);
     } else {
@@ -46,17 +51,20 @@ class ProductManager {
     }
   }
 
-  updateProduct(id, title, description, price, thumbnail, code, stock) {
+  updateProduct(product) {
     this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-    let found = this.products.find((product) => product.id === id);
+    let found = this.products.find(
+      (element) => element.id === Number(product.id)
+    );
     if (found) {
-      found.title = title;
-      found.description = description;
-      found.price = price;
-      found.thumbnail = thumbnail;
-      found.code = code;
-      found.stock = stock;
+      found.title = product.title;
+      found.description = product.description;
+      found.price = product.price;
+      found.thumbnail = product.thumbnail;
+      found.code = product.code;
+      found.stock = product.stock;
       fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
+      console.log("Product updated successfully!");
     } else {
       console.log("Product not found");
     }
@@ -64,10 +72,13 @@ class ProductManager {
 
   deleteProduct(id) {
     this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-    let found = this.products.find((product) => product.id === id);
+    let found = this.products.find((product) => product.id === Number(id));
     if (found) {
-      this.products = this.products.filter((product) => product.id !== id);
+      this.products = this.products.filter(
+        (product) => product.id !== Number(id)
+      );
       fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
+      console.log("Product deleted successfully!");
     } else {
       console.log("Product not found");
     }
@@ -77,40 +88,3 @@ class ProductManager {
 }
 
 module.exports = ProductManager;
-
-// let prod = new ProductManager("./data/products.json");
-// prod.getProducts();
-// prod.addProduct(
-//   "producto prueba",
-//   "Este es un producto prueba",
-//   200,
-//   "No image available",
-//   "abc123",
-//   25
-// );
-
-// prod.addProduct(
-//   "producto prueba 2",
-//   "Este es un producto prueba",
-//   900,
-//   "No image available",
-//   "abc456",
-//   50
-// );
-
-// prod.getProductById(2);
-
-// prod.updateProduct(
-//   3,
-//   "producto prueba 2 UPDATED",
-//   "Este es un producto prueba",
-//   200,
-//   "No image available",
-//   "abc456",
-//   100
-// );
-
-// prod.getProducts();
-
-// prod.deleteProduct(1);
-// prod.deleteProduct(2);
