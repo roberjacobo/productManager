@@ -25,7 +25,7 @@ class ProductManager {
         ProductManager.idCounter = 1;
       } else {
         ProductManager.idCounter =
-          this.products[this.products.length - 1].id + 1;
+          this.products[this.products.length - 1].id ++;
       }
 
       const newProduct = {
@@ -59,10 +59,12 @@ class ProductManager {
     if (found) {
       found.title = product.title;
       found.description = product.description;
-      found.price = product.price;
-      found.thumbnail = product.thumbnail;
       found.code = product.code;
+      found.price = product.price;
+      found.status = product.status;
       found.stock = product.stock;
+      found.category = product.category;
+      found.thumbnails = product.thumbnails;
       fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
       console.log("Product updated successfully!");
     } else {
