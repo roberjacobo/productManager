@@ -1,11 +1,13 @@
 const fs = require("fs");
 
 class ProductManager {
-  static _idCounter = 0;
   constructor(path) {
     this.path = path;
     this.products = new Array();
   }
+
+  static _idCounter =
+    JSON.parse(fs.readFileSync(this.path, "utf-8")).length + 1;
 
   incrementId() {
     ProductManager._idCounter += 1;

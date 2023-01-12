@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 class CartManager {
-  static idCounter = 0;
+  static idCounter = (JSON.parse(fs.readFileSync(this.path, "utf-8"))).length;
 
   constructor(path) {
     this.path = path;

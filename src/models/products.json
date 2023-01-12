@@ -26,5 +26,20 @@
       "sin imagen",
       "sin imagen"
     ]
+  },
+  {
+    "id": 3,
+    "title": "Producto de prueba 3",
+    "description": "descripción de producto (3)",
+    "code": "ABC103",
+    "price": 103,
+    "status": true,
+    "stock": 13,
+    "category": "Categoría de prueba",
+    "thumbnails": [
+      "sin imagen",
+      "sin imagen",
+      "sin imagen"
+    ]
   }
 ]
