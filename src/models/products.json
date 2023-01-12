@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Producto de prueba 1 (Actualizado)",
+    "description": "descripción de producto (Actualizado)",
+    "code": "ABC101",
+    "price": 100,
+    "status": true,
+    "stock": 25,
+    "category": "Categoría de prueba (Actualizado)",
+    "thumbnails": [
+      "sin imagen"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Producto de prueba 2 (Actualizado)",
+    "description": "descripción de producto (2) (Actualizado)",
+    "code": "ABC102",
+    "price": 102,
+    "status": true,
+    "stock": 20,
+    "category": "Categoría de prueba (2) (Actualizado)",
+    "thumbnails": [
+      "sin imagen",
+      "sin imagen",
+      "sin imagen"
+    ]
+  }
+]
