@@ -54,4 +54,22 @@ router.delete("/:id", (req, res) => {
   return "Product deleted successfully!";
 });
 
+// Handlebars
+
+router.post("/realtimeproducts", (req, res) => {
+  const prod = {
+    title: req.body.title,
+    description: req.body.description,
+    code: req.body.code,
+    price: req.body.price,
+    status: req.body.status,
+    stock: req.body.stock,
+    category: req.body.category,
+    thumbnails: req.body.thumbnails,
+  };
+  const resProd = prodManager.addProduct(prod);
+  res.status(200).send(resProd);
+  return "Product added successfully!";
+});
+
 module.exports = router;
