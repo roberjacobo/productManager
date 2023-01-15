@@ -1,15 +1,15 @@
-const express = require("express");
-const apiRputes = require('./routes/index.routes');
+import express, { json } from "express";
+import apiRputes from "./routes/index.routes.js";
 
 const app = express();
-app.use(express.json());
+app.use(json());
 const PORT = 8080;
 
 // ROUTES
-app.use('/api', apiRputes);
+app.use("/api", apiRputes);
 
 app.listen(PORT, () => {
   return `Server listening on port ${PORT}!`;
 });
 
-module.exports = app;
+export default app;

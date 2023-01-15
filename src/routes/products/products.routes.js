@@ -1,7 +1,7 @@
-const { Router } = require("express");
+import { Router } from "express";
 const router = Router();
 
-const ProductManager = require("../../jobs/ProductManager.js");
+import ProductManager from "../../jobs/ProductManager.js";
 const prodManager = new ProductManager("./src/models/products.json");
 
 router.get("/", (req, res) => {
@@ -49,9 +49,9 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
-  const resProd = prodManager.deleteProduct(id)
+  const resProd = prodManager.deleteProduct(id);
   res.status(200).send(resProd);
   return "Product deleted successfully!";
 });
 
-module.exports = router;
+export default router;

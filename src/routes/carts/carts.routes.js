@@ -1,7 +1,7 @@
-const { Router } = require("express");
+import { Router } from "express";
 const router = Router();
 
-const cartMan = require("../../jobs/CartManager.js");
+import cartMan from "../../jobs/CartManager.js";
 const cartManager = new cartMan("./src/models/carts.json");
 
 router.post("/", (req, res) => {
@@ -32,4 +32,4 @@ router.post("/:cid/product/:pid", (req, res) => {
   res.status(200).send(cartManager.addCartWithProduct(cart));
 });
 
-module.exports = router;
+export default router;
