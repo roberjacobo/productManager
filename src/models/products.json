@@ -41,5 +41,20 @@
       "sin imagen",
       "sin imagen"
     ]
+  },
+  {
+    "id": 4,
+    "title": "Producto de prueba 4",
+    "description": "descripción de producto (4)",
+    "code": "ABC104",
+    "price": 104,
+    "status": true,
+    "stock": 14,
+    "category": "Categoría de prueba",
+    "thumbnails": [
+      "sin imagen",
+      "sin imagen",
+      "sin imagen"
+    ]
   }
 ]

@@ -1,16 +1,15 @@
 const fs = require("fs");
 
 class ProductManager {
+
   constructor(path) {
     this.path = path;
     this.products = new Array();
+    this._idCounter = JSON.parse(fs.readFileSync(path, "utf-8")).length;
   }
 
-  static _idCounter =
-    JSON.parse(fs.readFileSync(this.path, "utf-8")).length + 1;
-
   incrementId() {
-    ProductManager._idCounter += 1;
+    this._idCounter += 1;
   }
 
   addProduct(product) {
@@ -20,7 +19,7 @@ class ProductManager {
     if (found === undefined) {
       this.incrementId();
       this.products.push({
-        id: ProductManager._idCounter,
+        id: this._idCounter,
         ...product,
       });
       fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
