@@ -6,3 +6,8 @@ socket.on("socket_individual", (data) => {
   console.log("Individual");
   console.log(data);
 });
+
+socket.on("todos", (data) => {
+  console.log("todos");
+  console.log(data);
+});
