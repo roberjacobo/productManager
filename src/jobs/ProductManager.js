@@ -1,32 +1,35 @@
 import { readFileSync, writeFileSync } from "fs";
 
 class ProductManager {
+
+  static idCounter = 0;
+
   constructor(path) {
     this.path = path;
     this.products = new Array();
   }
 
-  static _idCounter =
-    JSON.parse(readFileSync("./src/models/carts.json", "utf-8")).length + 1;
-
-  incrementId() {
-    ProductManager._idCounter += 1;
-  }
-
   addProduct(product) {
     this.products = JSON.parse(readFileSync(this.path, "utf-8"));
     let found = this.products.find((element) => element.code === product.code);
-
     if (found === undefined) {
-      this.incrementId();
-      this.products.push({
-        id: ProductManager._idCounter,
+      if (!this.products.length) {
+        ProductManager.idCounter = 1;
+      } else {
+        ProductManager.idCounter =
+          this.products[this.products.length - 1].id + 1;
+      }
+
+      const newProduct = {
+        id: ProductManager.idCounter,
         ...product,
-      });
+      };
+
+      this.products.push(newProduct);
       writeFileSync(this.path, JSON.stringify(this.products, null, 2));
-      return "Product created successfully!";
+      console.log("Product created successfully!");
     } else {
-      return "Product already exists";
+      console.log("Product already exists");
     }
   }
 
