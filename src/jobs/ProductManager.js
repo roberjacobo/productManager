@@ -1,31 +1,35 @@
-const fs = require("fs");
+import { readFileSync, writeFileSync } from "fs";
 
 class ProductManager {
+
+  static idCounter = 0;
 
   constructor(path) {
     this.path = path;
     this.products = new Array();
-    this._idCounter = JSON.parse(fs.readFileSync(path, "utf-8")).length;
-  }
-
-  incrementId() {
-    this._idCounter += 1;
   }
 
   addProduct(product) {
-    this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    this.products = JSON.parse(readFileSync(this.path, "utf-8"));
     let found = this.products.find((element) => element.code === product.code);
-
     if (found === undefined) {
-      this.incrementId();
-      this.products.push({
-        id: this._idCounter,
+      if (!this.products.length) {
+        ProductManager.idCounter = 1;
+      } else {
+        ProductManager.idCounter =
+          this.products[this.products.length - 1].id + 1;
+      }
+
+      const newProduct = {
+        id: ProductManager.idCounter,
         ...product,
-      });
-      fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
-      return "Product created successfully!";
+      };
+
+      this.products.push(newProduct);
+      writeFileSync(this.path, JSON.stringify(this.products, null, 2));
+      console.log("Product created successfully!");
     } else {
-      return "Product already exists";
+      console.log("Product already exists");
     }
   }
 
@@ -39,7 +43,7 @@ class ProductManager {
   }
 
   getProductById(id) {
-    this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    this.products = JSON.parse(readFileSync(this.path, "utf-8"));
     const found = this.products.find((element) => element.id === Number(id));
     if (found) {
       return found;
@@ -49,7 +53,7 @@ class ProductManager {
   }
 
   updateProduct(product) {
-    this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    this.products = JSON.parse(readFileSync(this.path, "utf-8"));
     const found = this.products.find((p) => p.id === Number(product.id));
     if (found !== undefined) {
       this.products.map((p) => {
@@ -63,7 +67,7 @@ class ProductManager {
           p.category = product.category;
           p.thumbnails = product.thumbnails;
           console.log("this.products: ", this.products);
-          fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
+          writeFileSync(this.path, JSON.stringify(this.products, null, 2));
         }
       });
       return "Product updated successfully!";
@@ -73,13 +77,13 @@ class ProductManager {
   }
 
   deleteProduct(id) {
-    this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    this.products = JSON.parse(readFileSync(this.path, "utf-8"));
     const found = this.products.find((product) => product.id === Number(id));
     if (found !== undefined) {
       this.products = this.products.filter(
         (product) => product.id !== Number(id)
       );
-      fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
+      writeFileSync(this.path, JSON.stringify(this.products, null, 2));
       return "Product deleted successfully!";
     } else {
       return "Product not found";
