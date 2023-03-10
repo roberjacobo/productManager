@@ -1,6 +1,8 @@
 import { readFileSync, writeFileSync } from "fs";
 
 class CartManager {
+  static idCounter = 0;
+
   constructor(path) {
     this.path = path;
     this.carts = new Array();
@@ -18,7 +20,7 @@ class CartManager {
       if (!this.carts.length) {
         CartManager._idCounter = 1;
       } else {
-        CartManager._idCounter = this.carts[this.carts.length - 1].id++;
+        CartManager.idCounter = this.carts[this.carts.length - 1].id + 1;
       }
 
       const newCart = {
