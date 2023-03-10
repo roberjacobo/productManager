@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
+const { readFileSync, writeFileSync } = require("fs");
 
 class ProductManager {
 
@@ -34,7 +34,7 @@ class ProductManager {
   }
 
   getProducts(limit) {
-    this.products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    this.products = JSON.parse(readFileSync(this.path, "utf-8"));
     if (!this.products.length) {
       return "Products list is empty";
     } else {

@@ -1,14 +1,15 @@
-const fs = require("fs");
+const { readFileSync, writeFileSync } = require("fs");
 
 class CartManager {
+  static idCounter = 0;
+
   constructor(path) {
     this.path = path;
     this.carts = new Array();
-    this._idCounter = JSON.parse(fs.readFileSync(path, "utf-8")).length;
   }
 
   addCart(cart) {
-    this.carts = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    this.carts = JSON.parse(readFileSync(this.path, "utf-8"));
     const found = this.carts.find((element) => element.code === cart.code);
 
     if (found === undefined) {
@@ -24,7 +25,7 @@ class CartManager {
       };
 
       this.carts.push(newCart);
-      fs.writeFileSync(this.path, JSON.stringify(this.carts, null, 2));
+      writeFileSync(this.path, JSON.stringify(this.carts, null, 2));
       return "Cart Added Succesfully";
     } else {
       return "Cart already exists";
@@ -32,7 +33,7 @@ class CartManager {
   }
 
   getCarts(limit) {
-    this.carts = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    this.carts = JSON.parse(readFileSync(this.path, "utf-8"));
     if (!this.carts.length) {
       return "Carts list is empty";
     } else {
@@ -41,7 +42,7 @@ class CartManager {
   }
 
   getCartById(id) {
-    this.carts = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    this.carts = JSON.parse(readFileSync(this.path, "utf-8"));
     const found = this.carts.find((element) => element.id === Number(id));
     if (found) {
       return found;
@@ -52,7 +53,7 @@ class CartManager {
 
   addCartWithProduct(cart) {
     console.log(cart);
-    this.carts = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+    this.carts = JSON.parse(readFileSync(this.path, "utf-8"));
     const cartFound = this.carts.find((element) => element.id === cart.id);
 
     if (cartFound === undefined) {
@@ -66,7 +67,7 @@ class CartManager {
       };
 
       this.carts.push(newCart);
-      fs.writeFileSync(this.path, JSON.stringify(this.carts, null, 2));
+      writeFileSync(this.path, JSON.stringify(this.carts, null, 2));
     } else {
       const productFound = cartFound.products.find(
         (element) => element.id === cart.product.id
@@ -78,7 +79,7 @@ class CartManager {
         cartFound.products.push(cart.product);
       }
 
-      fs.writeFileSync(this.path, JSON.stringify(this.carts, null, 2));
+      writeFileSync(this.path, JSON.stringify(this.carts, null, 2));
     }
   }
 
