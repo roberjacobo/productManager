@@ -9,6 +9,12 @@ router.get("/", (req, res) => {
   res.status(200).send(prodManager.getProducts(limit));
 });
 
+// realtimeproducts
+router.get("/realtimeproducts", (req, res) => {
+  const limit = req.query.limit;
+  res.status(200).send(prodManager.getProducts(limit));
+});
+
 router.get("/:id", (req, res) => {
   const id = req.params.id;
   const resProd = prodManager.getProductById(id);
@@ -26,6 +32,7 @@ router.post("/", (req, res) => {
     category: req.body.category,
     thumbnails: req.body.thumbnails,
   };
+  console.log("juanma-",prod);
   const resProd = prodManager.addProduct(prod);
   res.status(200).send(resProd);
   return "Product added successfully!";
@@ -49,7 +56,7 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
-  const resProd = prodManager.deleteProduct(id)
+  const resProd = prodManager.deleteProduct(id);
   res.status(200).send(resProd);
   return "Product deleted successfully!";
 });

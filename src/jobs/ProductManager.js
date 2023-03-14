@@ -1,3 +1,4 @@
+'use strict';
 const { readFileSync, writeFileSync } = require("fs");
 
 class ProductManager {

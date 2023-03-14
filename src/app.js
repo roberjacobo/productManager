@@ -1,18 +1,20 @@
+'use strict';
 const express = require("express");
-var path = require('path');
+let path = require('path');
 const { Server } = require("socket.io");
 const handlebars = require("express-handlebars");
 const viewRoutes = require("./routes/index.routes");
+const { readFileSync } = require("fs");
 
 const PORT = 8080;
 const app = express();
 
 // Template engine (Handlebars)
+
 app.engine(".handlebars", handlebars.engine());
-
 app.set("view engine", "handlebars");
-
 app.set('views', path.join(__dirname, 'views'));
+
 
 // Middlewares
 app.use(express.json());
@@ -32,24 +34,10 @@ const socketServer = new Server(httpServer);
 // emit => emitir eventos
 // on => escuchar eventos
 
+
+// Products Data
+const productsData = JSON.parse(readFileSync('./src/models/products.json'));
+
 socketServer.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado");
-  console.log("Bienvenido ", socket.id);
-
-  socket.on("message", (data) => {
-    console.log("Llegó evento message desde el cliente");
-    console.log(data);
-  });
-
-  // Bienvenido Roberto
-  socket.emit("socket_individual", "Este mensaje sólo lo recibe un socket");
-
-  // Roberto se ha conectado
-  socket.broadcast.emit(
-    "todos_menos_el_actual",
-    "Este mensaje lo reciben todos los clientes menos el actual"
-  );
-
-  // Roberto => mensaje | Roberto, cliente1, cliente2...
-  socketServer.emit("todos", "Este mensaje lo reciben todos.");
+  socket.emit('productsData', productsData);
 });
