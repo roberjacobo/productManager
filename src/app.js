@@ -13,7 +13,7 @@ const app = express();
 
 app.engine(".handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
-app.set('views', path.join(__dirname, 'views'));
+app.set('views/layouts/', path.join(__dirname, 'views'));
 
 
 // Middlewares
@@ -22,7 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
 // ROUTES
-app.use(viewRoutes);
+app.use("/api", viewRoutes);
+
 
 const httpServer = app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}!`);

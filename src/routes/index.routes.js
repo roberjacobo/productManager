@@ -8,6 +8,10 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
+router.get("/realTimeProducts", (req, res) => {
+  res.render("realTimeProducts");
+});
+
 router.use("/carts", cartsRoutes);
 router.use("/products", productsRoutes);
 

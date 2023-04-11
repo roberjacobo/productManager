@@ -32,7 +32,6 @@ router.post("/", (req, res) => {
     category: req.body.category,
     thumbnails: req.body.thumbnails,
   };
-  console.log("juanma-",prod);
   const resProd = prodManager.addProduct(prod);
   res.status(200).send(resProd);
   return "Product added successfully!";
